@@ -6,6 +6,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from config import RANDOM_SEED
+from xgboost import XGBRegressor
 
 np.random.seed(RANDOM_SEED)
 
@@ -37,6 +38,20 @@ def build_random_forest() -> Pipeline:
             max_depth=5,
             min_samples_leaf=5,
             random_state=RANDOM_SEED,
+        )),
+    ])
+
+def build_xgboost() -> Pipeline:
+    return Pipeline([
+        ("scaler", StandardScaler()),
+        ("model",  XGBRegressor(
+            n_estimators=200,
+            max_depth=4,
+            learning_rate=0.05,
+            subsample=0.8,
+            colsample_bytree=0.8,
+            random_state=RANDOM_SEED,
+            verbosity=0,
         )),
     ])
 
